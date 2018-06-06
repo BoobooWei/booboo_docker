@@ -176,3 +176,84 @@ Docker CE 已安装并且正在运行。您需要使用 `sudo` 运行 Docker 命
 
 
 
+## 安装过程问题总结
+
+### YUM安装依赖报错
+
+#### 报错明细
+
+```shell
+Error: Package: docker-ce-18.05.0.ce-3.el7.centos.x86_64 (docker-ce-edge)
+           Requires: container-selinux >= 2.9
+Error: Package: docker-ce-18.05.0.ce-3.el7.centos.x86_64 (docker-ce-edge)
+           Requires: pigz
+ You could try using --skip-broken to work around the problem
+** Found 6 pre-existing rpmdb problem(s), 'yum check' output follows:
+perl-DBD-MySQL-4.023-5.el7.x86_64 has missing requires of libmysqlclient.so.18()(64bit)
+perl-DBD-MySQL-4.023-5.el7.x86_64 has missing requires of libmysqlclient.so.18(libmysqlclient_18)(64bit)
+php-mysql-5.4.16-36.el7_1.x86_64 has missing requires of libmysqlclient.so.18()(64bit)
+php-mysql-5.4.16-36.el7_1.x86_64 has missing requires of libmysqlclient.so.18(libmysqlclient_18)(64bit)
+2:postfix-2.10.1-6.el7.x86_64 has missing requires of libmysqlclient.so.18()(64bit)
+2:postfix-2.10.1-6.el7.x86_64 has missing requires of libmysqlclient.so.18(libmysqlclient_18)(64bit)
+```
+
+#### 解决
+
+```shell
+# 查看当前可以安装的版本
+Loaded plugins: fastestmirror, langpacks, product-id, search-disabled-repos,
+docker-ce.x86_64            18.05.0.ce-3.el7.centos             docker-ce-edge  
+docker-ce.x86_64            18.04.0.ce-3.el7.centos             docker-ce-edge  
+docker-ce.x86_64            18.03.1.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            18.03.1.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            18.03.0.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            18.03.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            18.02.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            18.01.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.12.1.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.12.1.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.12.0.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.12.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.11.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.10.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.09.1.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.09.1.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.09.0.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.09.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.07.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.06.2.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.06.2.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.06.1.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.06.1.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.06.0.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.06.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.05.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.04.0.ce-1.el7.centos             docker-ce-edge  
+docker-ce.x86_64            17.03.2.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.03.1.ce-1.el7.centos             docker-ce-stable
+docker-ce.x86_64            17.03.0.ce-1.el7.centos             docker-ce-stable
+Available Packages
+
+
+# http://mirrors.aliyun.com/repo/ 
+# 下载epel包 pigz
+[root@mastera yum.repos.d]# wget http://mirrors.aliyun.com/repo/epel-7.repo
+
+# http://mirror.centos.org/centos/7/extras/x86_64/
+# 下载extras包，container-selinux
+[root@mastera yum.repos.d]# cat extras.repo 
+[extras]
+name=extras
+baseurl=http://mirror.centos.org/centos/7/extras/x86_64/
+gpgcheck=0
+enabled=1
+
+yum install -y mariadb* pigz container-selinux
+```
+
+
+
+
+
+
+
