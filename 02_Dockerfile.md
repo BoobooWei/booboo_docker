@@ -4,8 +4,9 @@
 
 > 目标，将mysql故障检测程序打包成docker镜像，方便下次部署
 
+## 构造Docker基础镜像
 
-##　构造Docker基础镜像
+
 
 `mkimage-yum.sh`脚本就是我们用来构造Docker基础镜像的脚本。其工作原理解释如下：
 
